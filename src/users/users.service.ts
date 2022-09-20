@@ -19,4 +19,16 @@ export class UsersService {
     .getRawOne();
     return user;
   }
+
+  async signupUser(users: any): Promise<void> {
+    
+    const user = new User();
+    user.first_name = users.first_name;
+    user.last_name = users.last_name;
+    user.password = users.password;
+    user.email = users.email;
+
+    await this.userService.save(user)
+
+  }
 }

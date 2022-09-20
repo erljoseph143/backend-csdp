@@ -3,10 +3,12 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import jwt_decode  from 'jwt-decode';
+import { UsersService } from './users/users.service';
+import { Request as Req } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private userService: UsersService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
@@ -18,5 +20,10 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req, @Headers() head) {
     return jwt_decode(head.authorization.split(' ')[1]);
+  }
+
+  @Post('auth/signup')
+  async createUser(@Request() req: Req){
+    this.userService.signupUser(req.query)
   }
 }

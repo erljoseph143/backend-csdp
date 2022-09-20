@@ -11,6 +11,8 @@ export default class UsersMigration1663309805574 implements MigrationInterface {
                         name: "id",
                         type: "int",
                         isPrimary: true,
+                        generationStrategy: 'increment',
+                        isGenerated: true
                     },
                     {
                         name: "first_name",
@@ -34,16 +36,19 @@ export default class UsersMigration1663309805574 implements MigrationInterface {
                     {
                         name: "phone_number",
                         type: "varchar",
-                        length: "30"
+                        length: "30",
+                        isNullable: true
                     },
                     {
                         name: "account_type",
-                        type: "int"
+                        type: "int",
+                        isNullable: true
                     },
                     {
                         name: "accessabilities_ids",
                         type: "varchar",
-                        length: "20"
+                        length: "20",
+                        isNullable: true
                     }
 
                 ]
