@@ -13,8 +13,10 @@ export class UsersService {
   
 
   async findOne(email: string, password: string): Promise<User | undefined> {
-    const user = await this.userService.createQueryBuilder().where('email ='+ email).where('password = '+ password).getRawOne();
-    console.log(user, ' check users');
+    const user = await this.userService.createQueryBuilder()
+    .where(":email = email", {email})
+    .andWhere(':password = password', {password} )
+    .getRawOne();
     return user;
   }
 }
