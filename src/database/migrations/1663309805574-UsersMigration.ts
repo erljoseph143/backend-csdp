@@ -27,7 +27,8 @@ export default class UsersMigration1663309805574 implements MigrationInterface {
                     {
                         name: "email",
                         type: "varchar",
-                        length: "100"
+                        length: "100",
+                        isUnique: true
                     },
                     {
                         name: "password",

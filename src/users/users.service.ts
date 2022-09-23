@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './users.entity';
+import { User } from '../database/entity/users.entity';
 import * as bcrypt from 'bcrypt'
 
 // This should be a real class/interface representing a user entity
@@ -17,8 +17,8 @@ export class UsersService {
 
     const user = await this.userService.createQueryBuilder('users')
     .where(":email = email", {email})
-    .getRawOne();
-    const bcryptCompare = user ? await bcrypt.compare(password, user.users_password) : false;
+    .getOne();
+    const bcryptCompare = user ? await bcrypt.compare(password, user.password) : false;
     if (user && bcryptCompare) {
       return user;
     }
