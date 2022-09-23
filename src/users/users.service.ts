@@ -18,7 +18,7 @@ export class UsersService {
     const user = await this.userService.createQueryBuilder('users')
     .where(":email = email", {email})
     .getRawOne();
-    const bcryptCompare = await bcrypt.compare(password, user.users_password);
+    const bcryptCompare = user ? await bcrypt.compare(password, user.users_password) : false;
     if (user && bcryptCompare) {
       return user;
     }
