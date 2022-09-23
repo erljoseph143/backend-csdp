@@ -1,9 +1,11 @@
 import { DataSourceOptions, DataSource } from 'typeorm';
 import MigrationsList from './migrations.list';
+import { SeederOptions } from 'typeorm-extension';
+import { User } from '../users/users.entity';
 import * as dotenv from 'dotenv'
 dotenv.config();
 
-export const typeOrmConfig: DataSourceOptions = {
+export const typeOrmConfig: DataSourceOptions & SeederOptions= {
     type: 'mysql',
     // autoLoadEntities: true,
     synchronize: false,
@@ -12,10 +14,10 @@ export const typeOrmConfig: DataSourceOptions = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    entities:[User],
     migrations: [...MigrationsList],
-    // cli: {
-    //     migrationsDir: __dirname + '../database/migrations'
-    // }
+    seeds: ['src/database/seeds/**/*{.ts,.js}'],
+    factories: ['src/database/factories/**/*{.ts,.js}']
 }
 
 export default new DataSource(typeOrmConfig);

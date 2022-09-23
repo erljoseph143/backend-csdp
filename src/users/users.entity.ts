@@ -22,7 +22,6 @@ export class User {
         async setPassword(password: string) {
         const salt = await bcrypt.genSalt()
         this.password = await bcrypt.hash(password || this.password, salt)
-        // console.log(this.password, 'check bcrypt')
         return this.password
     }
     
