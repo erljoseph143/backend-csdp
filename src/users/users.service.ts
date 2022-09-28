@@ -16,8 +16,15 @@ export class UsersService {
   async findOne(email: string, password: string): Promise<user | undefined> {
 
     const user = await this.userService.createQueryBuilder('users')
+    .select('id, first_name, last_name, email, password')
+    .addSelect(`CASE 
+                  WHEN account_type = 1 then 'admin' 
+                  WHEN account_type = 2 then 'staff' 
+                  ELSE 'guest' 
+                END`, 'user_type')
+    .addSelect('account_type', 'account_type')
     .where(":email = email", {email})
-    .getOne();
+    .getRawOne();
     const bcryptCompare = user ? await bcrypt.compare(password, user.password) : false;
     if (user && bcryptCompare) {
       return user;

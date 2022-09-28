@@ -5,6 +5,7 @@ import { AuthService } from './auth/auth.service';
 import jwt_decode  from 'jwt-decode';
 import { UsersService } from './users/users.service';
 import { Request as Req } from 'express';
+import { Roles } from './roles/roles.decorator';
 
 @Controller()
 export class AppController {
@@ -17,6 +18,7 @@ export class AppController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Roles('guest','admin')
   @Get('profile')
   getProfile(@Request() req, @Headers() head) {
     return jwt_decode(head.authorization.split(' ')[1]);
